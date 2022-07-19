@@ -12,7 +12,7 @@ console.log(refreshToken);
 
 if (refreshToken) {
   console.log('1')
-  fetch(`http://localhost:8888/refresh_token?refresh_token=${refreshToken}`)
+  fetch(`/api/refresh_token?refresh_token=${refreshToken}`)
     .then(res => res.json())
     .then(data => console.log(data));
 
