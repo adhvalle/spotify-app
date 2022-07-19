@@ -1,6 +1,24 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const accessToken = urlParams.get('access_token');
+const refreshToken = urlParams.get('refresh_token');
+
+console.log(accessToken);
+console.log(refreshToken);
+
+if (refreshToken) {
+  console.log('1')
+  fetch(`http://localhost:8888/refresh_token?refresh_token=${refreshToken}`)
+    .then(res => res.json())
+    .then(data => console.log(data));
+
+  console.log('1')
+}
+
 </script>
 
 <template>

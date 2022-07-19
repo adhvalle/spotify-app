@@ -58,20 +58,29 @@ app.get('/callback', (req, res) => {
     }),
     headers: {
       'content-type': 'application/x-www-form-urlencoded',
+      'Access-Control-Allow-Origin':'*',
       Authorization: `Basic ${new Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64')}`,
     },
   })
     .then(response => {
       if (response.status === 200) {
-        const { refresh_token } = response.data;
+        // const { refresh_token } = response.data;
 
-        axios.get(`http://localhost:${port}/refresh_token?refresh_token=${refresh_token}`)
-          .then(response => {
-            res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
-          })
-          .catch(error => {
-            res.send(error);
-          });
+        // axios.get(`http://localhost:${port}/refresh_token?refresh_token=${refresh_token}`)
+        //   .then(response => {
+        //     res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
+        //   })
+        //   .catch(error => {
+        //     res.send(error);
+        //   });
+        const { access_token, refresh_token } = response.data;
+
+        const queryParams = querystring.stringify({
+          access_token,
+          refresh_token,
+        });
+
+        res.redirect(`http://localhost:3000/?${queryParams}`);
 
       } else {
         res.send(response);
